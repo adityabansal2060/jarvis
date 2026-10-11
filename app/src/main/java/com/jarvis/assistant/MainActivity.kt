@@ -96,10 +96,8 @@ class MainActivity : AppCompatActivity() {
             cameraHelper.initCamera(this@MainActivity)
         }
 
-        val savedModel = prefs.getString(JarvisFloatingService.KEY_MODEL, "") ?: ""
-        if (savedModel.contains("latest") || savedModel.contains("2.5") || savedModel.isBlank()) {
-            prefs.edit().putString(JarvisFloatingService.KEY_MODEL, GeminiClient.DEFAULT_MODEL).apply()
-        }
+        // Always lock to the verified working model (gemini-3.5-flash)
+        prefs.edit().putString(JarvisFloatingService.KEY_MODEL, GeminiClient.DEFAULT_MODEL).apply()
 
         val key = prefs.getString(JarvisFloatingService.KEY_API, "")
         if (key.isNullOrBlank()) {
@@ -136,6 +134,7 @@ class MainActivity : AppCompatActivity() {
         btnLaunchFloating.setOnClickListener { checkAndStartFloatingService() }
         btnSettings.setOnClickListener { showSettingsDialog(isFirstTime = false) }
 
+        // 1-Tap Copy
         btnCopyResponse.setOnClickListener {
             val text = tvResponse.text.toString().trim()
             if (text.isNotEmpty()) {
@@ -146,6 +145,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Send Typed Text
         btnSendText.setOnClickListener { sendTypedMessage() }
 
         etUserInput.setOnEditorActionListener { _, actionId, _ ->
