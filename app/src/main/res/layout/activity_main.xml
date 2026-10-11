@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_dark"
-    android:padding="16dp">
+    android:padding="12dp">
 
     <!-- Top Header Bar -->
     <TextView
@@ -15,7 +15,7 @@
         android:letterSpacing="0.25"
         android:text="J.A.R.V.I.S."
         android:textColor="@color/cyan_glow"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,8 +33,8 @@
 
     <ImageButton
         android:id="@+id/btnSettings"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Settings"
         android:src="@android:drawable/ic_menu_preferences"
@@ -44,9 +44,9 @@
 
     <ImageButton
         android:id="@+id/btnLaunchFloating"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="6dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Floating Mode"
         android:src="@android:drawable/ic_menu_always_landscape_portrait"
@@ -57,9 +57,9 @@
     <!-- Center Arc Reactor Hologram Canvas -->
     <com.jarvis.assistant.HologramView
         android:id="@+id/hologramView"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvSubtitle" />
@@ -69,11 +69,11 @@
         android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:letterSpacing="0.15"
         android:text="@string/status_ready"
         android:textColor="@color/cyan_glow"
-        android:textSize="13sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,83 +84,168 @@
         android:id="@+id/tvUserTranscript"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="2dp"
         android:gravity="center"
-        android:text="Say 'Jarvis' or tap TALK..."
+        android:text="Type below or tap TALK..."
         android:textColor="@color/text_secondary"
-        android:textSize="12sp"
+        android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvStatus" />
 
-    <!-- Neural Response Card -->
-    <ScrollView
-        android:id="@+id/responseScrollView"
+    <!-- Neural Response Card with Header and Copy Button -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/responseCardContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/bg_hud_card"
-        android:padding="14dp"
+        android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@id/quickActionsLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvUserTranscript">
 
         <TextView
-            android:id="@+id/tvResponse"
-            android:layout_width="match_parent"
+            android:id="@+id/tvResponseHeader"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="3dp"
-            android:text="At your service, sir. Online and fully integrated with real-time Google search, camera vision, and system controls."
-            android:textColor="@color/text_primary"
-            android:textSize="14sp" />
-    </ScrollView>
+            android:letterSpacing="0.1"
+            android:text="NEURAL FEEDBACK"
+            android:textColor="@color/cyan_glow"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnCopyResponse"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_btn_hud"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:text="📋 COPY"
+            android:textAllCaps="false"
+            android:textColor="@color/cyan_glow"
+            android:textSize="11sp"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:id="@+id/responseScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnCopyResponse">
+
+            <TextView
+                android:id="@+id/tvResponse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="3dp"
+                android:text="At your service, sir. Online and fully integrated with real-time Google search, camera vision, and system controls."
+                android:textColor="@color/text_primary"
+                android:textIsSelectable="true"
+                android:textSize="13sp" />
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Vision & Tools Quick Actions -->
     <LinearLayout
         android:id="@+id/quickActionsLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/mainControlsLayout"
+        app:layout_constraintBottom_toTopOf="@id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/btnCameraVision"
             android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_marginEnd="6dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:background="@drawable/bg_btn_hud"
-            android:text="📷 CAMERA"
-            android:textColor="@color/cyan_glow"
-            android:textSize="12sp" />
+            android:text="📷 Camera"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/btnScreenVision"
             android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="3dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:layout_weight="1"
             android:background="@drawable/bg_btn_hud"
-            android:text="📱 SCREEN"
-            android:textColor="@color/cyan_glow"
-            android:textSize="12sp" />
+            android:text="📱 Screen"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/btnReminders"
             android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="6dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/bg_btn_hud"
-            android:text="⏰ REMIND"
-            android:textColor="@color/cyan_glow"
-            android:textSize="12sp" />
+            android:text="⏰ Remind"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <!-- Text Input Bar (Type message + Send button) -->
+    <LinearLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/mainControlsLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/etUserInput"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_input_box"
+            android:hint="Type message or ask anything..."
+            android:imeOptions="actionSend"
+            android:inputType="textCapSentences|textShortMessage"
+            android:maxLines="2"
+            android:textColor="#ffffff"
+            android:textColorHint="@color/text_secondary"
+            android:textSize="13sp" />
+
+        <ImageButton
+            android:id="@+id/btnSendText"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_btn_talk"
+            android:contentDescription="Send"
+            android:src="@android:drawable/ic_menu_send"
+            app:backgroundTint="@null"
+            app:tint="@color/bg_dark" />
     </LinearLayout>
 
     <!-- Main Talk & Emergency Force-Stop Controls -->
@@ -176,27 +261,31 @@
         <Button
             android:id="@+id/btnTalk"
             android:layout_width="0dp"
-            android:layout_height="54dp"
-            android:layout_marginEnd="8dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="6dp"
             android:layout_weight="2"
             android:background="@drawable/bg_btn_talk"
-            android:letterSpacing="0.1"
+            android:letterSpacing="0.05"
             android:text="🎙 TALK TO JARVIS"
+            android:textAllCaps="false"
             android:textColor="@color/bg_dark"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/btnForceStop"
             android:layout_width="0dp"
-            android:layout_height="54dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:background="@drawable/bg_btn_stop"
-            android:letterSpacing="0.1"
+            android:letterSpacing="0.05"
             android:text="🛑 STOP"
+            android:textAllCaps="false"
             android:textColor="@color/red_stop"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
