@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">J.A.R.V.I.S.</string>
+    <string name="status_ready">SYSTEM ONLINE • READY</string>
+    <string name="status_listening">LISTENING • AUDIO STREAM ACTIVE</string>
+    <string name="status_thinking">ANALYZING NEURAL CORE...</string>
+    <string name="status_speaking">VOCALIZING RESPONSE...</string>
+    <string name="status_error">COMMUNICATION LINK ERROR</string>
+    <string name="channel_name">JARVIS Background Service</string>
+    <string name="channel_desc">Keeps the floating Arc Reactor overlay active over other apps</string>
+    <string name="reminder_channel_name">JARVIS Reminders</string>
+    <string name="reminder_channel_desc">Alerts for scheduled tasks and alarms</string>
+</resources>

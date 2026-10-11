@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/floatingRoot"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <!-- Draggable Floating Hologram Bubble -->
+    <FrameLayout
+        android:id="@+id/floatingBubbleContainer"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/bg_floating_bubble">
+
+        <com.jarvis.assistant.HologramView
+            android:id="@+id/floatingHologramView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <!-- Expanded Quick Actions Menu (Shown when bubble is tapped) -->
+    <LinearLayout
+        android:id="@+id/floatingExpandedMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bg_hud_card"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/btnFloatingTalk"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_btn_hud"
+            android:contentDescription="Talk"
+            android:src="@android:drawable/ic_btn_speak_now"
+            android:tint="@color/cyan_glow" />
+
+        <ImageButton
+            android:id="@+id/btnFloatingStop"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_btn_stop"
+            android:contentDescription="Stop"
+            android:src="@android:drawable/ic_media_pause"
+            android:tint="@color/red_stop" />
+
+        <ImageButton
+            android:id="@+id/btnFloatingCam"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_btn_hud"
+            android:contentDescription="Camera Vision"
+            android:src="@android:drawable/ic_menu_camera"
+            android:tint="@color/cyan_glow" />
+
+        <ImageButton
+            android:id="@+id/btnFloatingScreen"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_btn_hud"
+            android:contentDescription="Screen Vision"
+            android:src="@android:drawable/ic_menu_view"
+            android:tint="@color/cyan_glow" />
+
+        <ImageButton
+            android:id="@+id/btnFloatingClose"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_btn_hud"
+            android:contentDescription="Close"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:tint="@color/text_secondary" />
+    </LinearLayout>
+
+</LinearLayout>

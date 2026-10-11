@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Futuristic Iron-Man Cyan & Deep Space Palette -->
+    <color name="bg_dark">#030914</color>
+    <color name="bg_panel">#0a1626</color>
+    <color name="bg_panel_border">#183a5e</color>
+
+    <!-- Cyan Arc Reactor Energy -->
+    <color name="cyan_glow">#00f0ff</color>
+    <color name="cyan_dark">#007799</color>
+    <color name="cyan_dim">#0a3048</color>
+
+    <!-- Arc Core Gold & Accents -->
+    <color name="gold_glow">#ffb300</color>
+    <color name="gold_dim">#4d3700</color>
+
+    <!-- Status Colors -->
+    <color name="red_stop">#ff2a55</color>
+    <color name="red_stop_dim">#400a15</color>
+    <color name="green_ready">#00ff88</color>
+
+    <!-- Text -->
+    <color name="text_primary">#e6f7ff</color>
+    <color name="text_secondary">#789bbb</color>
+    <color name="text_dim">#3a5570</color>
+</resources>

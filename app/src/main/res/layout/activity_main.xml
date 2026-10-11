@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark"
+    android:padding="16dp">
+
+    <!-- Top Header Bar -->
+    <TextView
+        android:id="@+id/tvAppTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.25"
+        android:text="J.A.R.V.I.S."
+        android:textColor="@color/cyan_glow"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.1"
+        android:text="QUANTUM NEURAL CORE"
+        android:textColor="@color/text_secondary"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAppTitle" />
+
+    <ImageButton
+        android:id="@+id/btnSettings"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Settings"
+        android:src="@android:drawable/ic_menu_preferences"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/cyan_glow" />
+
+    <ImageButton
+        android:id="@+id/btnLaunchFloating"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Floating Mode"
+        android:src="@android:drawable/ic_menu_always_landscape_portrait"
+        app:layout_constraintEnd_toStartOf="@id/btnSettings"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/cyan_glow" />
+
+    <!-- Center Arc Reactor Hologram Canvas -->
+    <com.jarvis.assistant.HologramView
+        android:id="@+id/hologramView"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitle" />
+
+    <!-- Status Badge -->
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:letterSpacing="0.15"
+        android:text="@string/status_ready"
+        android:textColor="@color/cyan_glow"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hologramView" />
+
+    <!-- User Input Preview -->
+    <TextView
+        android:id="@+id/tvUserTranscript"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:text="Say 'Jarvis' or tap TALK..."
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvStatus" />
+
+    <!-- Neural Response Card -->
+    <ScrollView
+        android:id="@+id/responseScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_hud_card"
+        android:padding="14dp"
+        app:layout_constraintBottom_toTopOf="@id/quickActionsLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvUserTranscript">
+
+        <TextView
+            android:id="@+id/tvResponse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="3dp"
+            android:text="At your service, sir. Online and fully integrated with real-time Google search, camera vision, and system controls."
+            android:textColor="@color/text_primary"
+            android:textSize="14sp" />
+    </ScrollView>
+
+    <!-- Vision & Tools Quick Actions -->
+    <LinearLayout
+        android:id="@+id/quickActionsLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/mainControlsLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btnCameraVision"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_hud"
+            android:text="📷 CAMERA"
+            android:textColor="@color/cyan_glow"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btnScreenVision"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_hud"
+            android:text="📱 SCREEN"
+            android:textColor="@color/cyan_glow"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btnReminders"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_hud"
+            android:text="⏰ REMIND"
+            android:textColor="@color/cyan_glow"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- Main Talk & Emergency Force-Stop Controls -->
+    <LinearLayout
+        android:id="@+id/mainControlsLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btnTalk"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="2"
+            android:background="@drawable/bg_btn_talk"
+            android:letterSpacing="0.1"
+            android:text="🎙 TALK TO JARVIS"
+            android:textColor="@color/bg_dark"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnForceStop"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_stop"
+            android:letterSpacing="0.1"
+            android:text="🛑 STOP"
+            android:textColor="@color/red_stop"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
