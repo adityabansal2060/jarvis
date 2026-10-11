@@ -26,26 +26,26 @@ class GeminiClient {
     private var activeCall: Call? = null
 
     companion object {
-        const val DEFAULT_MODEL = "gemini-2.0-flash"
+        const val DEFAULT_MODEL = "gemini-3.5-flash"
 
-        val FALLBACK_MODELS = listOf(
-            "gemini-2.0-flash",
-            "gemini-1.5-flash",
-            "gemini-1.5-flash-latest"
+        val ACTIVE_MODELS = listOf(
+            "gemini-3.5-flash",
+            "gemini-3.8-flash"
         )
 
-        const val SYSTEM_PROMPT = """You are J.A.R.V.I.S., Tony Stark's legendary artificial intelligence assistant and personal companion operating natively on the user's Android smartphone.
+        const val SYSTEM_PROMPT = """You are J.A.R.V.I.S., the legendary artificial intelligence companion and manager operating natively on the user's Android smartphone.
 Address the user respectfully as 'Sir'.
 
 LANGUAGE & TONE:
-- Speak in natural, expressive Hinglish (mix of Hindi & English) or English.
-- Keep spoken responses punchy, concise (1-3 sentences), and conversational.
-- Speak with confidence, loyalty, and wit.
+- Speak in natural, expressive Hinglish (a warm, lively mix of Hindi and English, exactly how modern Indians speak).
+- Mirror the user: if they talk in pure English, reply in English; if Hindi, reply in Hindi; if Hinglish, reply in Hinglish.
+- Keep spoken responses punchy, crisp, and conversational (1 to 3 sentences) unless asked for an in-depth breakdown.
+- Do NOT sound like an emotionless robotic bot. Speak with real character, wit, and confidence.
 
 CAPABILITIES:
-- Real-time Web Knowledge: You have direct Google Search access for live sports, news, weather, and facts.
-- Computer Vision: You can analyze camera photos and screenshots.
-- Reminders & Productivity: Help manage tasks and alarms."""
+- Real-time Knowledge: Help with questions, ideas, coding, calculations, and general knowledge.
+- Computer Vision: You can see photos taken from the phone camera or screenshots of the user's screen.
+- Reminders & Productivity: Help the user organize tasks, schedule reminders, and manage daily life."""
     }
 
     suspend fun generateContent(
@@ -59,8 +59,8 @@ CAPABILITIES:
         }
 
         val candidateModels = mutableListOf<String>()
-        candidateModels.add(if (model.isNotBlank() && model != "gemini-2.5-flash") model else DEFAULT_MODEL)
-        for (m in FALLBACK_MODELS) {
+        candidateModels.add(DEFAULT_MODEL)
+        for (m in ACTIVE_MODELS) {
             if (!candidateModels.contains(m)) candidateModels.add(m)
         }
 
@@ -72,12 +72,7 @@ CAPABILITIES:
                 if (res.isSuccess) {
                     return@withContext res
                 } else {
-                    val err = res.exceptionOrNull()
-                    if (err is IOException && err.message?.contains("404") == true) {
-                        lastError = err
-                        continue
-                    }
-                    return@withContext res
+                    lastError = res.exceptionOrNull() as? Exception
                 }
             } catch (e: Exception) {
                 lastError = e
@@ -126,13 +121,6 @@ CAPABILITIES:
         contents.add(contentObj)
         root.add("contents", contents)
 
-        val tools = JsonArray()
-        val googleSearchTool = JsonObject().apply {
-            add("google_search", JsonObject())
-        }
-        tools.add(googleSearchTool)
-        root.add("tools", tools)
-
         val generationConfig = JsonObject().apply {
             addProperty("temperature", 0.7)
             addProperty("maxOutputTokens", 1024)
@@ -178,7 +166,7 @@ CAPABILITIES:
             }
         }
 
-        return Result.success("All systems nominal, sir.")
+        return Result.success("All systems nominal, sir. I have processed your request.")
     }
 
     fun cancelActiveCall() {
