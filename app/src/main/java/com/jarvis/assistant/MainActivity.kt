@@ -2,6 +2,8 @@ package com.jarvis.assistant
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -15,6 +17,8 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.view.LayoutInflater
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -43,6 +47,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnReminders: Button
     private lateinit var btnLaunchFloating: ImageButton
     private lateinit var btnSettings: ImageButton
+
+    private lateinit var etUserInput: EditText
+    private lateinit var btnSendText: ImageButton
+    private lateinit var btnCopyResponse: Button
 
     private lateinit var prefs: SharedPreferences
     private lateinit var speechEngine: SpeechEngine
@@ -88,13 +96,16 @@ class MainActivity : AppCompatActivity() {
             cameraHelper.initCamera(this@MainActivity)
         }
 
-        // Check for API key on startup
+        val savedModel = prefs.getString(JarvisFloatingService.KEY_MODEL, "") ?: ""
+        if (savedModel.contains("latest") || savedModel.contains("2.5") || savedModel.isBlank()) {
+            prefs.edit().putString(JarvisFloatingService.KEY_MODEL, GeminiClient.DEFAULT_MODEL).apply()
+        }
+
         val key = prefs.getString(JarvisFloatingService.KEY_API, "")
         if (key.isNullOrBlank()) {
             showSettingsDialog(isFirstTime = true)
         }
 
-        // Handle camera request from overlay
         if (intent.getBooleanExtra("trigger_camera", false)) {
             captureAndAnalyzeCamera()
         }
@@ -113,32 +124,49 @@ class MainActivity : AppCompatActivity() {
         btnLaunchFloating = findViewById(R.id.btnLaunchFloating)
         btnSettings = findViewById(R.id.btnSettings)
 
-        btnTalk.setOnClickListener {
-            startListening()
+        etUserInput = findViewById(R.id.etUserInput)
+        btnSendText = findViewById(R.id.btnSendText)
+        btnCopyResponse = findViewById(R.id.btnCopyResponse)
+
+        btnTalk.setOnClickListener { startListening() }
+        btnForceStop.setOnClickListener { forceStop() }
+        btnCameraVision.setOnClickListener { captureAndAnalyzeCamera() }
+        btnScreenVision.setOnClickListener { requestScreenCapture() }
+        btnReminders.setOnClickListener { showReminderDialog() }
+        btnLaunchFloating.setOnClickListener { checkAndStartFloatingService() }
+        btnSettings.setOnClickListener { showSettingsDialog(isFirstTime = false) }
+
+        btnCopyResponse.setOnClickListener {
+            val text = tvResponse.text.toString().trim()
+            if (text.isNotEmpty()) {
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("JARVIS Response", text)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(this, "Copied response to clipboard!", Toast.LENGTH_SHORT).show()
+            }
         }
 
-        btnForceStop.setOnClickListener {
-            forceStop()
-        }
+        btnSendText.setOnClickListener { sendTypedMessage() }
 
-        btnCameraVision.setOnClickListener {
-            captureAndAnalyzeCamera()
+        etUserInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_ACTION_DONE) {
+                sendTypedMessage()
+                true
+            } else {
+                false
+            }
         }
+    }
 
-        btnScreenVision.setOnClickListener {
-            requestScreenCapture()
-        }
+    private fun sendTypedMessage() {
+        val text = etUserInput.text.toString().trim()
+        if (text.isNotEmpty()) {
+            etUserInput.setText("")
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(etUserInput.windowToken, 0)
 
-        btnReminders.setOnClickListener {
-            showReminderDialog()
-        }
-
-        btnLaunchFloating.setOnClickListener {
-            checkAndStartFloatingService()
-        }
-
-        btnSettings.setOnClickListener {
-            showSettingsDialog(isFirstTime = false)
+            tvUserTranscript.text = "\"$text\""
+            processPrompt(text)
         }
     }
 
@@ -329,7 +357,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showReminderDialog() {
-        val dialogView = LayoutInflater.from(this).inflate(android.R.layout.simple_list_item_1, null)
         val input = EditText(this).apply {
             hint = "Reminder message (e.g. Call Rahul, Take medicine)"
             setTextColor(ContextCompat.getColor(context, R.color.text_primary))
@@ -392,7 +419,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun showSettingsDialog(isFirstTime: Boolean) {
         val currentKey = prefs.getString(JarvisFloatingService.KEY_API, "") ?: ""
-        val currentModel = prefs.getString(JarvisFloatingService.KEY_MODEL, GeminiClient.DEFAULT_MODEL) ?: GeminiClient.DEFAULT_MODEL
 
         val input = EditText(this).apply {
             hint = "Paste free Gemini API Key (starts with AIza...)"
@@ -407,7 +433,7 @@ class MainActivity : AppCompatActivity() {
                 val newKey = input.text.toString().trim()
                 prefs.edit()
                     .putString(JarvisFloatingService.KEY_API, newKey)
-                    .putString(JarvisFloatingService.KEY_MODEL, currentModel)
+                    .putString(JarvisFloatingService.KEY_MODEL, GeminiClient.DEFAULT_MODEL)
                     .apply()
                 speechEngine.speak("Neural credentials initialized, sir. Jarvis standing by.")
             }
